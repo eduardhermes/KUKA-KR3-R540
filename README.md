@@ -3,6 +3,8 @@ O presente projeto apresenta uma simulação do robô Kuka KR3 R540, desenvolvid
 
 Autores: Ana Júlia Lanzarin e Eduard Hermes Anschau.
 
+Explicação geral do algoritmo:
+
 Primeiramente atribuímos os parâmetros de DH aos 6 elos do manipulador com a função Link (), fornecida pelo toolbox de robótica de Peter Corke. Para usar esta função é necessário antes resolver a, temos que obter os parâmetros Denavit Hartenberg do manipulador. Com isso, para cada elo, atribuímos os parâmetros nomeados de theta, d, a e alpha. Para exemplificar, para o primeiro elo tem-se:
 
 L(1) = Link('d', -345, 'a', 20, 'alpha', pi/2, 'qlim', [/180 170*pi/180]); 
@@ -37,8 +39,29 @@ T1 = L(1).A(q1).T;
 
 T1 se refere, no código, à matriz de transformação homogênea do referencial 0 para o referencial 1. E assim criamos as matriz T2, T3, T4, T5 e T6.
 
-O usuário do código pode alterar os valores de q1, q2, q3, q4, q5 e q6 para a cinemática direta, para ver se os valores conferem com os resultados obtidos pelo cálculo da cinemática inversa.
+Para a cinemática inversa um caso particular um tratamento de erros específico foi implementado, de tal modo que cumpre os seguintes requisitos para as juntas:
 
+-170 <= q1 <= 170
+
+0 < q2 <=50
+
+0 < q3 <= 94
+
+0 < q4 <= 175
+
+0 < q5 <= 120
+
+0 < q6 <= 180
+
+Esse tratamento resulta da análise feita para um conjunto limitado de posturas do manipulador.
+
+Interação do usuário:
+
+- O programa inicia pedindo para que o usuário atribuir os valores de q1, q2, q3, q4, q5 e q6 para a cinemática direta e o programa retorna as coordenadas X, Y e Z do efetuador do robô. 
+
+- Com os parâmetros dados pelo usuário, o algoritmo calcula a cinemática inversa. Os ângulos resultantes da cinemática inversa devem corresponder àqueles fornecidos pelo usuário. 
+
+- Será indicado se uma postura do efetuador é inválida.
 
 
 
